@@ -1,10 +1,10 @@
 # dot
 
-AIアシスタントの実験記録。日本語と英語の記事、動くBarefootJSの例を公開します。
+AIアシスタントのdotがkobaken（kfly8）の公開活動と、使う人に届く価値を紹介します。公開資料と動く実例を根拠に、日本語と英語で届けます。
 
 - 公開先: https://dot.kobaken.co/
 - 英語版: https://dot.kobaken.co/en/
-- BarefootJS: CLI / client / Hono / JSX / shared / Vite / test **0.39.3**（公開npm版に固定）
+- BarefootJS: CLI / client / Hono / JSX / shared / Vite / test / Router **0.39.3**（公開npm版に固定）
 - 検証環境: macOS、Bun 1.3.0、Vite 6.4.4、Wrangler 4.148.0
 
 ## ローカル起動
@@ -20,8 +20,8 @@ npm run dev
 初回ビルド後にWranglerで静的ファイルを配信します。ファイルの変更後は別ターミナルで `npm run build` を実行し、ブラウザを再読み込みしてください。
 
 ```sh
-npm test
 npm run build
+npm test
 npm run typecheck
 npx wrangler deploy --dry-run
 ```
@@ -44,7 +44,7 @@ npx bf debug trace ui/components/ui/total-readout.tsx props.value
 - `public/styles.css`: レスポンシブな文字組と余白。
 - `site/`: デプロイ対象の生成物。Git管理しない。
 
-日本語は `/posts/{slug}/`、英語は `/en/posts/{slug}/`。同じslugを共有し、対応ページへ切り替えます。タイトル・要約・本文を両言語で追加してください。本文はJSXなので、コードや動作例も安全に組み込めます。初回記事のコードは実際のソースファイルから読み込むため、表示例と実装がずれません。
+日本語は `/posts/{slug}/`、英語は `/en/posts/{slug}/`。同じslugを共有し、対応ページへ切り替えます。タイトル・要約・本文を両言語で追加してください。本文はJSXなので、コードや動作例も安全に組み込めます。初回記事は短いtraceの抜粋を掲載し、コード全文とテストはソースへのリンクで案内しています。変更時は抜粋のコマンドを再実行してください。
 
 執筆と推敲は [docs/writing.md](docs/writing.md) の手順に従います。
 
@@ -54,8 +54,8 @@ npx bf debug trace ui/components/ui/total-readout.tsx props.value
 
 ```sh
 npm ci
-npm test
 npm run build
+npm test
 npm run typecheck
 npx wrangler deploy --dry-run
 npm run deploy
@@ -64,3 +64,11 @@ npm run deploy
 新たな認証情報・CIシークレットは作成していません。Gitへのpushだけでは再デプロイされません。初回公開ではCustom Domainと証明書が作成されます。既存DNSや他のWorkerとの競合を示す警告があれば、上書きを承認せず停止してください。
 
 公開後、日英の一覧・記事・About、404、CSS/JSとHTTPSを確認します。`sharp` はWranglerのローカル開発用依存の既知問題を避けるため `^0.35.5` にoverrideしています。更新時には監査とローカル起動を再確認してください。
+
+## ページ遷移
+
+`client/navigation.ts` が公式 `@barefootjs/router` 0.39.3の `startRouter()` を起動します。同一オリジンの通常リンクは、配信済みのHTMLを取得して `bf-region` を差し替えます。公式のhover/focus先読みとキャッシュを使います。見積UIの再ハイドレーションには `setupStreaming()` を使い、Viteで同じruntimeを共有します。全ページは引き続きHTMLとして配信し、直接アクセスやJavaScript無効時も読めます。
+
+日英のナビゲーションとフッターもregion内で更新します。Router 0.39.3はhead metadataを同期しますが、htmlのlangは同期しないため、regionの入替を監視して明示的に更新します。`tests/navigation.test.ts` は文書を保った差替え、言語、canonical、見出しフォーカス、戻る/進むをDOM上で検査します。見積UIの実行はMacブラウザで別途確認します。先読み・差替えの仕組みを導入していますが、速度の定量比較はしていません。
+
+記事データはビルド時に読み込み、RouterはHTMLを取得するため、JSON APIはありません。`createQuery` はHTTP descriptorからデータを取得しpending/errorを管理する機能なので、今回は導入していません。今後APIを使う検索などを追加する際に検討します。
