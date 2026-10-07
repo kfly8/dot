@@ -99,3 +99,11 @@ build・typecheck・既存5テスト（27 assertions）が成功。今回もUI�
 - タイトルはHTMLのh1へ戻し、画像には日英の説明altを設定。OG/Twitterにも説明と実寸を反映。
 - build、typecheck、6テスト・51assertions成功。Routerで見出し・画像・言語別alt・共有メタデータの同期を確認。
 - このMacのGoogle ChromeをPlaywrightで起動し、ローカル記事の1280px日本語・390px英語を撮影して目視確認。画像の読み込み成功、横方向のはみ出しなし。
+
+## 2026-10-07: 見積例のUI／ソースタブ
+
+- BarefootJSのEstimateExampleを追加。実装ファイルをビルド時に読み、UIと同じEstimate・TotalReadoutのソースを表示。
+- 日英の冒頭をレビューで迷う場面から始め、valueがTotalReadoutに渡す金額のpropsであることを説明。
+- build・typecheck・既存6テスト（51assertions）成功。
+- Mac Chrome／Playwrightで1280px日本語・390px英語を目視確認。クリック切替、左右矢印・Home・End、フォーカス、500→600→800、切替後の800保持、ソース原本との一致、ページ横溢れなしを確認。
+- Router経由の記事表示・日英切替後のタブと見積操作、JavaScript無効時のソース表示も成功。

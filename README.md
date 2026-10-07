@@ -78,3 +78,5 @@ npm run deploy
 `public/images/square-wheels.png` は日英共通の挿絵兼OG画像です。AI画像生成で作成し、文字を含めず、四角い車輪を検査する場面を描いています。記事タイトルはHTMLの見出しとして表示します。
 
 `content/posts.tsx` の `image` に画像パス、実寸1536×1024、日英の代替テキストを指定しています。記事とOG/Twitterの代替テキストを合わせて更新してください。旧タイポグラフィ画像と `scripts/render-article-images.mjs` は過去の原稿・生成用として残していますが、現在の記事では使いません。
+
+見積例の「動く例／ソースコード」タブは `ui/components/ui/estimate-example.tsx`。左右矢印・Home・Endでも切り替えられ、見積の入力状態を保持します。表示するソースはビルド時に `estimate.tsx` と `total-readout.tsx` の実ファイルから読み込みます。
