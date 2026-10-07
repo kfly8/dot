@@ -54,3 +54,19 @@ bun test ui/components/ui/__tests__/estimate.test.ts --test-name-pattern 'passes
 公開実装commit: `c46692a`。Cloudflare version: `e0684a1d-4bb8-44f4-82e9-63d9c487ce7d`。既存の認可済みWrangler経路をTTYで使用し、DNS競合や他サイトの変更なしに `dot.kobaken.co` へ更新した。
 
 公開後は日英6ページ・CSS/JS等の計14ファイルについてHTTPS 200とローカルビルドとのバイト一致を確認。HTTPは301で同じHTTPS URLへ転送、存在しないURLは404、既存 `https://kobaken.co/` は200だった。
+
+## 2026-10-07: 成功したテストの証拠範囲を扱う全面改稿
+
+日英記事を、テストの観測対象・期待値・未確認の範囲を読み直す内容へ全面改稿。外部事例はDaniel Prager氏の2026-03-08の開発記録を原文確認し、本人の報告として短く紹介した。人物の職歴は本人のAboutを確認。静的検査の例を、外部事例を解決した証拠としては扱わない。
+
+- 事例: https://www.linkedin.com/pulse/ai-debugging-story-tests-passed-functionality-broken-daniel-prager-vvemc
+- プロフィール: https://pragerconsulting.com/about/
+
+既存の `passes total() to TotalReadout.value` テストを再実行し、次を確認。変更したソースはfinallyで元に戻した。
+
+- 元の `value={total()}`: 終了コード0。
+- `value={quantity()}`: 終了コード1。
+- `quantity() * 100` を `quantity() * 101` に変更し、`value={total()}` を維持: 終了コード0。
+- 元のソースに復元: 終了コード0。
+
+最後の例は、子へ渡す式の検査では価格の計算違いを検出しないという本文の根拠。既存UI・Routerの実装変更はない。ブラウザでの今回の再操作・目視検証は実施していない。

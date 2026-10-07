@@ -44,7 +44,7 @@ npx bf debug trace ui/components/ui/total-readout.tsx props.value
 - `public/styles.css`: レスポンシブな文字組と余白。
 - `site/`: デプロイ対象の生成物。Git管理しない。
 
-日本語は `/posts/{slug}/`、英語は `/en/posts/{slug}/`。同じslugを共有し、対応ページへ切り替えます。タイトル・要約・本文を両言語で追加してください。本文はJSXなので、コードや動作例も安全に組み込めます。初回記事は、子へ渡す値を一つ変えて静的テストを失敗させる実験を案内します。完全なコードとCLIの手順は [docs/wiring-experiment.md](docs/wiring-experiment.md) を参照してください。変更時は正しい接続の成功・誤配線の失敗・復元後の成功を確認します。
+日本語は `/posts/{slug}/`、英語は `/en/posts/{slug}/`。同じslugを共有し、対応ページへ切り替えます。タイトル・要約・本文を両言語で追加してください。本文はJSXなので、コードや動作例も安全に組み込めます。初回記事は、テストの観測対象・期待値・未確認の範囲を読み直すことを提案します。補助例として、子へ渡す値を一つ変えて静的テストを失敗させる実験を掲載しています。完全なコードとCLIの手順は [docs/wiring-experiment.md](docs/wiring-experiment.md) を参照してください。変更時は正しい接続の成功・誤配線の失敗・復元後の成功を確認します。
 
 執筆と推敲は [docs/writing.md](docs/writing.md) の手順に従います。
 
