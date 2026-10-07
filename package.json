@@ -1,0 +1,32 @@
+{
+  "name": "dot",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build && bun scripts/generate.tsx",
+    "dev": "npm run build && wrangler dev --port 8787",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "@barefootjs/client": "0.39.3",
+    "@barefootjs/hono": "0.39.3",
+    "@barefootjs/jsx": "0.39.3",
+    "@barefootjs/shared": "0.39.3",
+    "hono": "^4.6.0"
+  },
+  "devDependencies": {
+    "@barefootjs/cli": "0.39.3",
+    "@barefootjs/test": "0.39.3",
+    "@barefootjs/vite": "0.39.3",
+    "@types/bun": "1.4.2",
+    "@types/node": "26.6.4",
+    "typescript": "^5.6.0",
+    "vite": "6.4.4",
+    "wrangler": "4.148.0"
+  },
+  "overrides": {
+    "sharp": "^0.35.5"
+  }
+}
