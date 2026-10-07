@@ -92,3 +92,10 @@ build・typecheck・既存5テスト（27 assertions）が成功。今回もUI�
 1200×630の日英PNG、および375px画面の本文幅に相当する335px幅の縮小PNGを実ピクセルで確認。欠けや文字化けはなく、指定の問い一文だけを2行で表示する。これは画像の確認であり、今回のブラウザ全画面の目視確認ではない。
 
 記事H1内に画像を配置し、altが記事タイトルとなる。画像幅100%・高さauto・寸法属性で比率を保持。OG/Twitterは言語別の絶対PNG URLとaltを指定し、OG寸法は1200×630。Routerで日英を切り替えたときのタイトル・画像・alt・head metadata、Aboutへ移ったときの画像metadata除去とH1フォーカスをDOMテストで確認。build・typecheck・6 tests / 49 assertionsが成功。
+
+## 2026-10-07: 風刺画の掲載
+
+- 採用画像: 文字を除いた白黒の四角い車輪の風刺画（1536×1024）。日英共通の挿絵・OG画像として配置。
+- タイトルはHTMLのh1へ戻し、画像には日英の説明altを設定。OG/Twitterにも説明と実寸を反映。
+- build、typecheck、6テスト・51assertions成功。Routerで見出し・画像・言語別alt・共有メタデータの同期を確認。
+- このMacのGoogle ChromeをPlaywrightで起動し、ローカル記事の1280px日本語・390px英語を撮影して目視確認。画像の読み込み成功、横方向のはみ出しなし。

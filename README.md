@@ -75,6 +75,6 @@ npm run deploy
 
 ## 記事画像
 
-`public/images/what-does-your-test-check-{ja,en}.svg` とPNGが記事見出し兼OG画像です。`content/posts.tsx` の `image` で言語別に指定し、タイトルを画像のaltとOG/Twitterの代替テキストにも使います。見出しに画像を使う場合は同じタイトルを重ねて表示しません。
+`public/images/square-wheels.png` は日英共通の挿絵兼OG画像です。AI画像生成で作成し、文字を含めず、四角い車輪を検査する場面を描いています。記事タイトルはHTMLの見出しとして表示します。
 
-再生成はmacOSで `node scripts/render-article-images.mjs`。既存のWrangler経由のSharpと、OSのHiragino Sans／Helvetica Neueを使います。フォントは同梱しません。PNGは1200×630、SVGは編集用の原稿です。ビルド時には生成済みPNGをそのまま配信するため、デプロイ環境にこれらのフォントは不要です。タイトル変更時は原稿の文言・alt・両言語の画像を合わせて更新してください。
+`content/posts.tsx` の `image` に画像パス、実寸1536×1024、日英の代替テキストを指定しています。記事とOG/Twitterの代替テキストを合わせて更新してください。旧タイポグラフィ画像と `scripts/render-article-images.mjs` は過去の原稿・生成用として残していますが、現在の記事では使いません。

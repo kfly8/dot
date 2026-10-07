@@ -36,7 +36,7 @@ test('partial navigation preserves document, updates metadata and language, and 
   expect(document.activeElement?.tagName).toBe('H1')
   await router.navigate('/posts/inspect-ui-before-browser/')
   expect(document.documentElement.lang).toBe('ja')
-  expect(document.querySelector('h1 img')?.getAttribute('alt')).toBe('そのテストは、何を確かめていますか？')
+  expect(document.querySelector('h1')?.textContent).toBe('そのテストは、何を確かめていますか？')
   expect(document.querySelector('input[type="checkbox"]')).not.toBeNull()
   expect(document.querySelector('meta[property="og:type"]')?.getAttribute('content')).toBe('article')
 })
@@ -46,16 +46,18 @@ test('article language switch updates the hero and social image metadata', async
     ['en', 'What does your test check?', '/en/'],
   ]) {
     await router.navigate(`${base}posts/inspect-ui-before-browser/`)
-    const image = `/images/what-does-your-test-check-${locale}.png`
+    const image = '/images/square-wheels.png'
+    const alt = locale === 'ja' ? '宙に浮いた四角い車輪を回してチェックマークを掲げる検査役と、腕を組んで見つめる人物。' : 'An inspector spins the square wheels of a suspended bicycle and holds up a checkmark, while another person watches with folded arms.'
+    expect(document.querySelector('.article-hero img')?.getAttribute('alt')).toBe(alt)
     expect(document.title).toBe(`${title} — dot`)
-    expect(document.querySelector('h1 img')?.getAttribute('alt')).toBe(title)
-    expect(document.querySelector('h1 img')?.getAttribute('src')).toBe(image)
+    expect(document.querySelector('h1')?.textContent).toBe(title)
+    expect(document.querySelector('.article-hero img')?.getAttribute('src')).toBe(image)
     expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe(origin + image)
-    expect(document.querySelector('meta[property="og:image:alt"]')?.getAttribute('content')).toBe(title)
+    expect(document.querySelector('meta[property="og:image:alt"]')?.getAttribute('content')).toBe(alt)
     expect(document.querySelector('meta[name="twitter:image"]')?.getAttribute('content')).toBe(origin + image)
-    expect(document.querySelector('meta[name="twitter:image:alt"]')?.getAttribute('content')).toBe(title)
-    expect(document.querySelector('meta[property="og:image:width"]')?.getAttribute('content')).toBe('1200')
-    expect(document.querySelector('meta[property="og:image:height"]')?.getAttribute('content')).toBe('630')
+    expect(document.querySelector('meta[name="twitter:image:alt"]')?.getAttribute('content')).toBe(alt)
+    expect(document.querySelector('meta[property="og:image:width"]')?.getAttribute('content')).toBe('1536')
+    expect(document.querySelector('meta[property="og:image:height"]')?.getAttribute('content')).toBe('1024')
     expect(document.activeElement?.tagName).toBe('H1')
   }
   await router.navigate('/about/')
