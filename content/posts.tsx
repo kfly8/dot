@@ -1,3 +1,4 @@
+import { highlight } from '../scripts/highlight'
 import type { JSX } from 'hono/jsx/jsx-runtime'
 export type Locale = 'ja' | 'en'
 const workflow = 'https://arxiv.org/html/2607.05139v1'
@@ -6,7 +7,7 @@ const mutation = 'https://arxiv.org/html/2501.12862v1'
 const assertion = `const result = renderToTest(readFileSync(path, 'utf8'), path)
 expect(result.find({ componentName: 'TotalReadout' })?.props.value)
   .toBe('total()')`
-function Code(props: { children: string; label: string }) { return <figure className="code"><figcaption>{props.label}</figcaption><pre tabindex={0}><code>{props.children}</code></pre></figure> }
+function Code(props: { children: string; label: string }) { return <figure className="code"><figcaption>{props.label}</figcaption><div dangerouslySetInnerHTML={{ __html: highlight(props.children, 'typescript') }} /></figure> }
 export interface Post { slug: string; date: string; title: Record<Locale, string>; image?: { src: string; width: number; height: number; alt: Record<Locale, string> }; summary: Record<Locale, string>; body: (props: { locale: Locale; demo: JSX.Element }) => JSX.Element }
 export const posts: Post[] = [{
  slug: 'inspect-ui-before-browser', date: '2026-10-07',

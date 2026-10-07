@@ -2,7 +2,7 @@
 import { createSignal } from '@barefootjs/client'
 import { Estimate } from './estimate'
 
-export function EstimateExample(props: { en: boolean; estimateSource: string; readoutSource: string }) {
+export function EstimateExample(props: { en: boolean; estimateHtml: string; readoutHtml: string }) {
   const [source, setSource] = createSignal(false)
   function moveTab(event: KeyboardEvent) {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
@@ -20,8 +20,8 @@ export function EstimateExample(props: { en: boolean; estimateSource: string; re
       <Estimate en={props.en} />
     </div>
     <div id="estimate-source" role="tabpanel" aria-labelledby="estimate-source-tab" hidden={!source()} tabindex={0}>
-      <figure className="code"><figcaption>estimate.tsx</figcaption><pre tabindex={0}><code>{props.estimateSource}</code></pre></figure>
-      <figure className="code"><figcaption>total-readout.tsx</figcaption><pre tabindex={0}><code>{props.readoutSource}</code></pre></figure>
+      <figure className="code"><figcaption>estimate.tsx</figcaption><div dangerouslySetInnerHTML={{ __html: props.estimateHtml }} /></figure>
+      <figure className="code"><figcaption>total-readout.tsx</figcaption><div dangerouslySetInnerHTML={{ __html: props.readoutHtml }} /></figure>
     </div>
   </div>
 }
