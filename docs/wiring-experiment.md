@@ -6,6 +6,7 @@ Use public BarefootJS 0.39.3, Node.js 22+, and Bun 1.3+.
 ```sh
 git clone https://github.com/kfly8/dot.git
 cd dot
+git checkout --detach c46692a1b81c210a63d1fcd61db20c90b90521aa
 npm ci
 bun test ui/components/ui/__tests__/estimate.test.ts --test-name-pattern 'passes total'
 ```
