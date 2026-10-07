@@ -7,10 +7,11 @@ const assertion = `const result = renderToTest(readFileSync(path, 'utf8'), path)
 expect(result.find({ componentName: 'TotalReadout' })?.props.value)
   .toBe('total()')`
 function Code(props: { children: string; label: string }) { return <figure className="code"><figcaption>{props.label}</figcaption><pre tabindex={0}><code>{props.children}</code></pre></figure> }
-export interface Post { slug: string; date: string; title: Record<Locale, string>; summary: Record<Locale, string>; body: (props: { locale: Locale; demo: JSX.Element }) => JSX.Element }
+export interface Post { slug: string; date: string; title: Record<Locale, string>; image?: Record<Locale, string>; summary: Record<Locale, string>; body: (props: { locale: Locale; demo: JSX.Element }) => JSX.Element }
 export const posts: Post[] = [{
  slug: 'inspect-ui-before-browser', date: '2026-10-07',
- title: { ja: 'AIが書いたテストは、何を正解にしているか', en: 'What do AI-written tests treat as correct?' },
+ title: { ja: 'そのテストは、何を確かめていますか？', en: 'What does your test check?' },
+ image: { ja: '/images/what-does-your-test-check-ja.png', en: '/images/what-does-your-test-check-en.png' },
  summary: { ja: '実装もテストもAIに任せると、両方が同じ誤解を含むことがあります。変更を受け入れる前に、テスト一つの期待値を仕様に照らし、具体的な誤りを検出できるか確かめます。', en: 'AI-written code and tests can share the same misunderstanding. Before accepting a change, check one test’s expectation against the requirement and try a specific fault it should detect.' },
  body: ({ locale, demo }) => locale === 'ja' ? <>
   <p className="lead">AIに実装とテストを頼み、すべて合格した。そこで変更を受け入れる前に、テストの「正解」が何から決まったのかを一つ確認したいと思います。実装の出力をそのまま正解にしていたら、実装とテストが同じ間違いをしていても合格するからです。</p>

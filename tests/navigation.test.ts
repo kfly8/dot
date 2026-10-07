@@ -36,9 +36,31 @@ test('partial navigation preserves document, updates metadata and language, and 
   expect(document.activeElement?.tagName).toBe('H1')
   await router.navigate('/posts/inspect-ui-before-browser/')
   expect(document.documentElement.lang).toBe('ja')
-  expect(document.querySelector('h1')?.textContent).toContain('AIが書いたテスト')
+  expect(document.querySelector('h1 img')?.getAttribute('alt')).toBe('そのテストは、何を確かめていますか？')
   expect(document.querySelector('input[type="checkbox"]')).not.toBeNull()
   expect(document.querySelector('meta[property="og:type"]')?.getAttribute('content')).toBe('article')
+})
+test('article language switch updates the hero and social image metadata', async () => {
+  for (const [locale, title, base] of [
+    ['ja', 'そのテストは、何を確かめていますか？', '/'],
+    ['en', 'What does your test check?', '/en/'],
+  ]) {
+    await router.navigate(`${base}posts/inspect-ui-before-browser/`)
+    const image = `/images/what-does-your-test-check-${locale}.png`
+    expect(document.title).toBe(`${title} — dot`)
+    expect(document.querySelector('h1 img')?.getAttribute('alt')).toBe(title)
+    expect(document.querySelector('h1 img')?.getAttribute('src')).toBe(image)
+    expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe(origin + image)
+    expect(document.querySelector('meta[property="og:image:alt"]')?.getAttribute('content')).toBe(title)
+    expect(document.querySelector('meta[name="twitter:image"]')?.getAttribute('content')).toBe(origin + image)
+    expect(document.querySelector('meta[name="twitter:image:alt"]')?.getAttribute('content')).toBe(title)
+    expect(document.querySelector('meta[property="og:image:width"]')?.getAttribute('content')).toBe('1200')
+    expect(document.querySelector('meta[property="og:image:height"]')?.getAttribute('content')).toBe('630')
+    expect(document.activeElement?.tagName).toBe('H1')
+  }
+  await router.navigate('/about/')
+  expect(document.querySelector('meta[property="og:image"]')).toBeNull()
+  expect(document.querySelector('meta[name="twitter:image"]')).toBeNull()
 })
 test('back and forward restore route, locale and metadata', async () => {
   await router.navigate('/en/about/')

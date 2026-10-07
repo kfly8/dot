@@ -72,3 +72,9 @@ npm run deploy
 日英のナビゲーションとフッターもregion内で更新します。Router 0.39.3はhead metadataを同期しますが、htmlのlangは同期しないため、regionの入替を監視して明示的に更新します。`tests/navigation.test.ts` は文書を保った差替え、言語、canonical、見出しフォーカス、戻る/進むをDOM上で検査します。見積UIの実行はMacブラウザで別途確認します。先読み・差替えの仕組みを導入していますが、速度の定量比較はしていません。
 
 記事データはビルド時に読み込み、RouterはHTMLを取得するため、JSON APIはありません。`createQuery` はHTTP descriptorからデータを取得しpending/errorを管理する機能なので、今回は導入していません。今後APIを使う検索などを追加する際に検討します。
+
+## 記事画像
+
+`public/images/what-does-your-test-check-{ja,en}.svg` とPNGが記事見出し兼OG画像です。`content/posts.tsx` の `image` で言語別に指定し、タイトルを画像のaltとOG/Twitterの代替テキストにも使います。見出しに画像を使う場合は同じタイトルを重ねて表示しません。
+
+再生成はmacOSで `node scripts/render-article-images.mjs`。既存のWrangler経由のSharpと、OSのHiragino Sans／Helvetica Neueを使います。フォントは同梱しません。PNGは1200×630、SVGは編集用の原稿です。ビルド時には生成済みPNGをそのまま配信するため、デプロイ環境にこれらのフォントは不要です。タイトル変更時は原稿の文言・alt・両言語の画像を合わせて更新してください。
