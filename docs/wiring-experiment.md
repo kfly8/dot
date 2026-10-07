@@ -15,6 +15,10 @@ bun test ui/components/ui/__tests__/estimate.test.ts --test-name-pattern 'passes
 
 One test passes. Change only `value={total()}` to `value={quantity()}` in `ui/components/ui/estimate.tsx`, then rerun the same command. It fails with `Expected: "total()" / Received: "quantity()"`. Restore the original expression and it passes again.
 
+元に戻したあと、同じファイルの `quantity() * 100` を `quantity() * 101` に変え、同じテストを実行してみてください。このテストは成功します。表示部品に渡す式が `total()` のままなので、単価の要件違反は見つけません。確認後は100に戻してください。
+
+After restoring the original, change `quantity() * 100` to `quantity() * 101` in the same file and rerun the same test. It passes: the display still receives `total()`, so this test does not detect the unit-price requirement violation. Restore 100 afterward.
+
 - [実装 / Component](../ui/components/ui/estimate.tsx)
 - [子の表示 / Child display](../ui/components/ui/total-readout.tsx)
 - [完全なテスト / Complete test](../ui/components/ui/__tests__/estimate.test.ts)
