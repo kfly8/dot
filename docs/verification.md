@@ -50,3 +50,7 @@ bun test ui/components/ui/__tests__/estimate.test.ts --test-name-pattern 'passes
 本文中のコードは省略箇所を明示。完全な実装とテストはリポジトリにあり、補足資料 `docs/wiring-experiment.md` から参照できる。
 
 今回の文章変更後はMacブラウザ操作ツールが `Transport closed` を返し、画面再確認は実施できなかった。前回の同じRouter・見積UIのローカルブラウザ検証とは区別する。
+
+公開実装commit: `c46692a`。Cloudflare version: `e0684a1d-4bb8-44f4-82e9-63d9c487ce7d`。既存の認可済みWrangler経路をTTYで使用し、DNS競合や他サイトの変更なしに `dot.kobaken.co` へ更新した。
+
+公開後は日英6ページ・CSS/JS等の計14ファイルについてHTTPS 200とローカルビルドとのバイト一致を確認。HTTPは301で同じHTTPS URLへ転送、存在しないURLは404、既存 `https://kobaken.co/` は200だった。
