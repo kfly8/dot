@@ -44,6 +44,7 @@ export const posts: Post[] = [{
   <h2>テストを一つ選び、見つけてほしい間違いを入れてみる</h2>
   <p>自分のコードでも試してみましょう。まず、「送料は注文ごとに一度だけ加える」のように、満たしてほしい要件を一つ選びます。その要件を確かめるテストを見つけ、期待値が要件に合っているか確認します。次に、送料を個数分加えるなど、<strong>要件に反する変更を実装に入れて、テストが失敗するか試します。</strong></p>
   <p>元の実装では成功し、間違いを入れると期待値との不一致で失敗し、実装を戻すと再び成功するところまで確認します。失敗しなければ、変更が本当に要件違反なのか、テストがその箇所を通り、結果を比較しているのかを調べます。一つの間違いを検出できても、すべての誤りを見つけられるわけではありません。</p>
+  <hr className="summary-divider" />
   <p><strong>テストが通ったときに知りたいのは、何を正しいと判断し、どんな間違いを見つけられるかです。</strong>期待値を要件に照らし、見つけてほしい間違いを入れて確かめる。今回の例なら、静的テストで式の接続を、実行するテストで計算や表示を確かめる。それぞれが確かめる対象を意識すると、合格という結果をどこまで信頼できるか判断しやすくなります。</p>
  </> : <>
   <p className="lead">AI has written the implementation and the tests. Everything is green. Yet during review, do you still pause and wonder whether the change is ready to accept? Reading every line again takes effort, and <strong>the passing count alone does not tell you what has actually been checked.</strong></p>
@@ -75,6 +76,7 @@ export const posts: Post[] = [{
   <h2>Pick a test and introduce a mistake you want it to catch</h2>
   <p>Try this in your own code. Start with one requirement, such as “charge delivery once per order.” Find a test for that requirement and check that its expected result matches the requirement. Then <strong>introduce a change that violates the requirement and see whether the test fails</strong>—for example, multiply the delivery fee by the item count.</p>
   <p>Confirm that the original implementation passes, the mistake causes an assertion mismatch, and restoring the implementation makes the test pass again. If it does not fail, check whether the change really violates the requirement and whether the test reaches that code and compares its result. Catching one mistake does not establish that the test catches every fault.</p>
+  <hr className="summary-divider" />
   <p><strong>When a test passes, what matters is what it treats as correct and which mistakes it can detect.</strong> Check its expectation against the requirement, then try a mistake you want it to catch. In this example, static tests check the expression’s connection, while tests that execute the code check calculations or displayed results. Knowing what each test checks helps you judge how much confidence to place in a passing result.</p>
  </>
 }]

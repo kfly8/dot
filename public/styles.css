@@ -12,3 +12,5 @@ html:not([data-js]) .example-tabs{display:none}html:not([data-js]) #estimate-sou
 @media(max-width:600px){.intro h1{font-size:clamp(24px,7vw,28px)}}
 
 .prose .code{background:#24292e;border-color:#444d56;color:#e1e4e8}.prose .code figcaption{background:#1b1f23;color:#c8d1da;border-bottom-color:#444d56;margin:0;padding:10px 16px}.prose .code pre{background:#24292e;color:#e1e4e8;font-size:13px;line-height:1.8}.prose .code pre:focus-visible{outline-color:#79b8ff;outline-offset:-3px}.prose .code ::selection{background:#3d5875;color:#fff}@media(max-width:600px){.prose .code pre{font-size:12px}}
+
+.prose .summary-divider{border:0;border-top:1px solid var(--line);margin:40px 0 32px}
