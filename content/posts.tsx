@@ -41,10 +41,10 @@ export const posts: Post[] = [{
   <p>この静的テストが確かめるのは、結果の数値ではなく、金額表示の <code>value</code> に合計を表す <code>total()</code> が渡されていることです。計算結果の正しさは、この検査の対象に含まれません。</p>
   <p>意図した式につながっていても、計算や画面の更新まで正しいとは限りません。そこでdotは別途ブラウザを操作し、初期表示の500円から、数量を増やすと600円、お急ぎ便を選ぶと800円になることを確認しました。<strong>式の接続は静的テストで、操作後の表示はブラウザで確かめています。</strong><a href="https://github.com/kfly8/dot/blob/main/docs/wiring-experiment.md">コードと再現手順</a>も公開しています。</p>
   <p>BarefootJSはこの式を調べる一つの道具です。計算の業務的な正しさ、期待値の誤り、実行時の操作を自動で保証するものではなく、紹介した研究もBarefootJSの優位性を示していません。</p>
-  <h2>次の変更では、テスト一つの根拠と検出力を確かめる</h2>
-  <p>次に変更をレビューするとき、重要な振る舞いを守るテストを一つ選んでください。<strong>期待値を要件や具体的な入出力例に照らし、その振る舞いを破る実装変更を一つ試します。</strong>元の実装で成功し、誤りを入れると期待値との不一致で失敗し、戻すと成功するところまで確認します。</p>
-  <p>失敗しなければ、すぐにテストを増やす前に、変更が本当に要件違反なのか、テストがその箇所を通るのか、結果を比較しているのかを調べます。逆に一つ検出できても、すべての誤りを見つけられるわけではありません。「この要件を根拠に、この間違いは検出した。計算や画面のこの部分は未確認」と説明できれば、次に必要な確認を選べます。</p>
-  <p>この方法が役立った場面だけでなく、うまくいかなかった例や別の確かめ方も、<a href="https://github.com/kfly8/dot/issues">記事のIssues</a>へ寄せてください。</p>
+  <h2>テストを一つ選び、見つけてほしい間違いを入れてみる</h2>
+  <p>自分のコードでも試してみましょう。まず、「送料は注文ごとに一度だけ加える」のように、満たしてほしい要件を一つ選びます。その要件を確かめるテストを見つけ、期待値が要件に合っているか確認します。次に、送料を個数分加えるなど、<strong>要件に反する変更を実装に入れて、テストが失敗するか試します。</strong></p>
+  <p>元の実装では成功し、間違いを入れると期待値との不一致で失敗し、実装を戻すと再び成功するところまで確認します。失敗しなければ、変更が本当に要件違反なのか、テストがその箇所を通り、結果を比較しているのかを調べます。一つの間違いを検出できても、すべての誤りを見つけられるわけではありません。</p>
+  <p><strong>テストが通ったときに知りたいのは、何を正しいと判断し、どんな間違いを見つけられるかです。</strong>期待値を要件に照らし、見つけてほしい間違いを入れて確かめる。今回の例なら、静的テストで式の接続を、実行するテストで計算や表示を確かめる。それぞれが確かめる対象を意識すると、合格という結果をどこまで信頼できるか判断しやすくなります。</p>
  </> : <>
   <p className="lead">AI has written the implementation and the tests. Everything is green. Yet during review, do you still pause and wonder whether the change is ready to accept? Reading every line again takes effort, and <strong>the passing count alone does not tell you what has actually been checked.</strong></p>
   <p>Suppose the requirement is to charge delivery once per order, but the code adds it once per item. A test that copies that calculation can pass without satisfying the requirement. This illustrative example shows why green tests can leave that uncertainty: the implementation and tests may share a misunderstanding. As a starting point for review, this article shows how to choose one important test, trace the basis of its expected result, and check a fault it can detect.</p>
@@ -72,9 +72,9 @@ export const posts: Post[] = [{
   <p>This static test checks the expression rather than the resulting number: the amount prop, <code>value</code>, must receive <code>total()</code>. Whether <code>total()</code> calculates the correct amount needs a separate check.</p>
   <p>Even with the intended expression connected, the calculation and screen updates may still be wrong. I therefore also operated the example in a browser, confirming that the initial JPY 500 became JPY 600 after increasing the quantity, then JPY 800 after selecting express delivery. <strong>The static test checks the expression’s connection; the browser check verifies the display after those interactions.</strong> The <a href="https://github.com/kfly8/dot/blob/main/docs/wiring-experiment.md">code and reproduction steps</a> are available.</p>
   <p>BarefootJS is one tool for inspecting this expression. It does not automatically establish business correctness, validate an expectation, or verify runtime interactions. None of the cited research demonstrates BarefootJS’s superiority.</p>
-  <h2>Check one test’s basis and detection ability in your next change</h2>
-  <p>Choose one test protecting important behavior in a change you are about to accept. <strong>Check its expectation against a requirement or concrete input/output example, then try one implementation change that violates that behavior.</strong> Confirm that the original passes, the faulty version fails because of an assertion mismatch, and restoration passes again.</p>
-  <p>If it does not fail, investigate before adding tests: does the change really violate the requirement, does the test reach it, and does it compare the result? Detecting one fault does not establish detection of every fault. Being able to say “this requirement supports the expectation; this mistake was detected; these calculations or screen behaviors remain unchecked” helps identify the next check.</p>
-  <p>Share cases where this helped, where it fell short, or where a different approach worked in the <a href="https://github.com/kfly8/dot/issues">article’s Issues</a>.</p>
+  <h2>Pick a test and introduce a mistake you want it to catch</h2>
+  <p>Try this in your own code. Start with one requirement, such as “charge delivery once per order.” Find a test for that requirement and check that its expected result matches the requirement. Then <strong>introduce a change that violates the requirement and see whether the test fails</strong>—for example, multiply the delivery fee by the item count.</p>
+  <p>Confirm that the original implementation passes, the mistake causes an assertion mismatch, and restoring the implementation makes the test pass again. If it does not fail, check whether the change really violates the requirement and whether the test reaches that code and compares its result. Catching one mistake does not establish that the test catches every fault.</p>
+  <p><strong>When a test passes, what matters is what it treats as correct and which mistakes it can detect.</strong> Check its expectation against the requirement, then try a mistake you want it to catch. In this example, static tests check the expression’s connection, while tests that execute the code check calculations or displayed results. Knowing what each test checks helps you judge how much confidence to place in a passing result.</p>
  </>
 }]
