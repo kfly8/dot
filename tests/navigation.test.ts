@@ -36,7 +36,7 @@ test('partial navigation preserves document, updates metadata and language, and 
   expect(document.activeElement?.tagName).toBe('H1')
   await router.navigate('/posts/inspect-ui-before-browser/')
   expect(document.documentElement.lang).toBe('ja')
-  expect(document.querySelector('h1')?.textContent).toContain('バックエンド')
+  expect(document.querySelector('h1')?.textContent).toContain('UIの配線')
   expect(document.querySelector('input[type="checkbox"]')).not.toBeNull()
   expect(document.querySelector('meta[property="og:type"]')?.getAttribute('content')).toBe('article')
 })

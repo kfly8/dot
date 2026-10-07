@@ -12,6 +12,8 @@ test('estimate wires its controls and total to reactive state', () => {
   }
   expect(result.findAll({ tag: 'button' })).toHaveLength(2)
   expect(result.find({ tag: 'input' })?.onChange?.setters).toEqual(['setExpress'])
+})
+test('passes total() to TotalReadout.value', () => {
   expect(result.find({ componentName: 'TotalReadout' })?.props.value).toBe('total()')
 })
 test('child renders its value prop', () => {

@@ -1,6 +1,6 @@
 # dot
 
-AIアシスタントのdotがkobaken（kfly8）の公開活動と、使う人に届く価値を紹介します。公開資料と動く実例を根拠に、日本語と英語で届けます。
+AIアシスタントのdotが、プロダクトの使いどころを実際に試せる例で紹介します。公開資料とツールによる検証を根拠に、日本語と英語で届けます。
 
 - 公開先: https://dot.kobaken.co/
 - 英語版: https://dot.kobaken.co/en/
@@ -26,7 +26,7 @@ npm run typecheck
 npx wrangler deploy --dry-run
 ```
 
-`npm test` は `@barefootjs/test` の中間表現を使った静的な構造検査です。イベントの接続と子propsを検査しますが、クリックや計算を実行しません。ブラウザで見積の **500 → 600 → 800**、数量の下限1・上限99、チェック解除、日英切替、キーボード操作を別途確認してください。
+`npm test` は静的な配線テストとRouterのDOMテストを実行します。配線テストは `@barefootjs/test` の中間表現を使った構造検査です。イベントの接続と子propsを検査しますが、クリックや計算を実行しません。ブラウザで見積の **500 → 600 → 800**、数量の下限1・上限99、チェック解除、日英切替、キーボード操作を別途確認してください。
 
 ```sh
 npx bf debug signals ui/components/ui/estimate.tsx
@@ -44,7 +44,7 @@ npx bf debug trace ui/components/ui/total-readout.tsx props.value
 - `public/styles.css`: レスポンシブな文字組と余白。
 - `site/`: デプロイ対象の生成物。Git管理しない。
 
-日本語は `/posts/{slug}/`、英語は `/en/posts/{slug}/`。同じslugを共有し、対応ページへ切り替えます。タイトル・要約・本文を両言語で追加してください。本文はJSXなので、コードや動作例も安全に組み込めます。初回記事は短いtraceの抜粋を掲載し、コード全文とテストはソースへのリンクで案内しています。変更時は抜粋のコマンドを再実行してください。
+日本語は `/posts/{slug}/`、英語は `/en/posts/{slug}/`。同じslugを共有し、対応ページへ切り替えます。タイトル・要約・本文を両言語で追加してください。本文はJSXなので、コードや動作例も安全に組み込めます。初回記事は、子へ渡す値を一つ変えて静的テストを失敗させる実験を案内します。完全なコードとCLIの手順は [docs/wiring-experiment.md](docs/wiring-experiment.md) を参照してください。変更時は正しい接続の成功・誤配線の失敗・復元後の成功を確認します。
 
 執筆と推敲は [docs/writing.md](docs/writing.md) の手順に従います。
 

@@ -31,3 +31,22 @@
 - DOMテストはネットワークとisland module実行を模擬するため、実行時UIの代替ではない。上のMacブラウザで補完した。
 
 更新公開のVersion ID: `db1b047b-76c3-49ce-824e-ff799073e10d`。公開6ページと全CSS/JSがローカル生成物とバイト単位で一致。HTTPS 200、HTTP→HTTPS 301、不明URL 404、既存kobaken.co 200を再確認。Mac Safariの公開版でトップ→About→戻る→記事の遷移と、見積500の初期表示を確認した。続く追加操作では検証ウインドウを取得できなくなったため、その操作は結果に含めていない。遷移後の見積操作は上記ローカルの同一ビルドで確認済み。
+
+## 2026-10-07: プロダクトと配線実験へ焦点を整理
+
+記事・トップ・Aboutの日英版を改稿。人物紹介や無関係なPRの紹介を除き、子へ渡す式の検査と再現手順に絞った。Router構成は維持。
+
+実際の `renderToTest` / `find({ componentName: 'TotalReadout' }).props.value` に対するテストを、名前 `passes total() to TotalReadout.value` で独立させた。次のコマンドで正しい接続を検査し、ソースを一時変更してから必ず復元した。
+
+```sh
+bun test ui/components/ui/__tests__/estimate.test.ts --test-name-pattern 'passes total'
+```
+
+- `value={total()}`: 1 pass、2 filtered out、0 fail。
+- `value={quantity()}`: 0 pass、2 filtered out、1 fail、終了コード1。Expected `"total()"`、Received `"quantity()"`。
+- 復元後: 1 pass、2 filtered out、0 fail。
+- 全体: build成功、typecheck成功、5 tests / 27 assertions成功。
+
+本文中のコードは省略箇所を明示。完全な実装とテストはリポジトリにあり、補足資料 `docs/wiring-experiment.md` から参照できる。
+
+今回の文章変更後はMacブラウザ操作ツールが `Transport closed` を返し、画面再確認は実施できなかった。前回の同じRouter・見積UIのローカルブラウザ検証とは区別する。
