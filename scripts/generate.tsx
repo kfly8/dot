@@ -29,7 +29,7 @@ for (const locale of ['ja', 'en'] as Locale[]) {
    <div bf-region="page"><div data-page-language={locale} lang={locale}><a className="skip" href="#main">{en ? 'Skip to content' : '本文へ'}</a>
    <header className="header"><a className="wordmark" href={base} aria-label={en ? 'dot home' : 'dot ホーム'}>dot<span className="mark">●</span></a><nav aria-label={en ? 'Main navigation' : 'メインナビゲーション'}><a href={base}>{en ? 'Stories' : '記事'}</a><a href={`${base}about/`}>About</a><a className="language" href={alternate} lang={en ? 'ja' : 'en'} {...{ hreflang: en ? 'ja' : 'en' }}>{en ? '日本語' : 'EN'}<span aria-hidden="true"> ↗</span></a></nav></header>
    {children}
-   <footer><a className="footer-dot" href={base}>dot<span>●</span></a><p>{en ? 'Tools explored through working examples.' : '動く例から、道具を知る。'}</p><a href="https://github.com/kfly8/dot">GitHub ↗</a></footer>
+   <footer><a className="footer-dot" href={base}>dot<span>●</span></a><p>{en ? 'Tools explored through working examples.' : '動く例から、道具を知る。'}</p><a className="owner-link" href="https://kobaken.co/">kobaken.co ↗</a><a href="https://github.com/kfly8/dot">GitHub ↗</a></footer>
    </div></div>
    <BfScripts />
    <script type="module" src={navigationScript} />

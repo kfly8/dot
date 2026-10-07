@@ -107,3 +107,10 @@ build・typecheck・既存5テスト（27 assertions）が成功。今回もUI�
 - build・typecheck・既存6テスト（51assertions）成功。
 - Mac Chrome／Playwrightで1280px日本語・390px英語を目視確認。クリック切替、左右矢印・Home・End、フォーカス、500→600→800、切替後の800保持、ソース原本との一致、ページ横溢れなしを確認。
 - Router経由の記事表示・日英切替後のタブと見積操作、JavaScript無効時のソース表示も成功。
+
+## 2026-10-07: 値と式の説明・日本語セルフレビュー
+
+- dot-core-message-writing／dot-japanese-editingを適用。値が一致するケースでは参照の取り違えを見逃し得ることと、今回の5・500なら値比較でも検出できることを日英に追記。
+- 静的な接続検査から計算・表示の別途確認へ段落を接続。研究紹介の長文、抽象的な表現、行動の説明を推敲。研究の条件・数値・限界は維持。
+- 全ページのフッターにkobaken.coへのリンクを追加。Mac Chromeで1280px・390pxの表示を目視確認し、リンク先・横溢れなしを確認。
+- build、typecheck、6テスト（51assertions）成功。

@@ -17,14 +17,14 @@ export const posts: Post[] = [{
   <p className="lead">AIが実装もテストも書いてくれた。テストはすべて緑。それでも、レビューで「これで受け入れていいのだろうか」と手が止まることはありませんか。コードを全部読み直すのは大変ですし、合格件数だけでは、何を確かめられたのか見えてきません。</p>
   <p>たとえば「送料は注文ごとに一度だけ加える」という要件なのに、商品ごとに送料を加えるコードを書いたとします。テストもその計算をなぞって期待値を作れば、合格しても要件を満たしたことにはなりません。これは説明のための例ですが、実装とテストが同じ誤解を共有すると、すべて緑でも安心できない理由が見えてきます。この記事では、レビューの足がかりとして、重要なテストを一つ選び、その「正解」の根拠と、見つけられる誤りを確かめる方法を紹介します。</p>
   <h2>実装を見せることが、期待値を偏らせる場合がある</h2>
-  <p>2026年7月の未査読研究 <a href={workflow}>On the risk of coding before testing</a> は、5モデルとPythonの3ベンチマーク（HumanEval+、MBPP、BigCodeBench）で、選別した、検出が比較的難しい誤実装を対象に比較しました。同じ会話で実装後にテストを作る条件の検出率は約14%、実装を見せず課題記述だけを新しい会話に渡す条件では約25%でした。一般のバグ発生率ではなく、会話を分ければ必ず見つかるという結果でもありません。</p>
-  <p>ここからの私の提案は、実装とは別に、期待する結果の理由をたどることです。要件にある送料の規則、仕様に載った入出力例、関係者と合意した振る舞いなどが根拠になります。AIに別の会話でテスト案を出してもらう方法もありますが、その案の期待値まで正しいとは限りません。要件が曖昧なら、先に製品としてどう振る舞うべきかを決める必要があります。</p>
+  <p>2026年7月の未査読研究 <a href={workflow}>On the risk of coding before testing</a> は、5モデルとPythonの3ベンチマーク（HumanEval+、MBPP、BigCodeBench）を使い、テストを生成する手順を比較しました。対象は、検出が比較的難しいものを選んだ誤実装です。同じ会話で実装後にテストを作る条件の検出率は約14%、実装を見せず課題記述だけを新しい会話に渡す条件では約25%でした。一般のバグ発生率ではなく、会話を分ければ必ず見つかるという結果でもありません。</p>
+  <p>この結果を踏まえ、期待する結果の根拠を、実装の外にたどることを提案します。要件にある送料の規則、仕様に載った入出力例、関係者と合意した振る舞いなどが根拠になります。AIに別の会話でテスト案を出してもらう方法もありますが、その案の期待値まで正しいとは限りません。要件が曖昧なら、先に製品としてどう振る舞うべきかを決める必要があります。</p>
   <h2>カバレッジの高さだけでは、その期待値を確かめられない</h2>
-  <p>カバレッジは、テストがコードのどの行や分岐を通ったかを示します。通った先で何を正しいと判定したかは、別に読む必要があります。</p>
-  <p><a href={coverage}>ISSTA 2026／PACMSEの再現研究</a>では、正しいJava実装から生成した回帰テストについて、モデルごとの平均値を比較すると、分岐カバレッジとバグ検出に強い相関（<code>r = 0.861</code>）がありました。一方、バグを含む実装から生成した場合、その相関は弱く、正しい実装を使った同一モデル内の比較でも弱いものでした。カバレッジを無意味と切り捨てる理由にはなりませんが、高い値を個々の変更の正しさと読み替えることもできません。</p>
+  <p>カバレッジは、テストがコードのどの行や分岐を通ったかを示します。その結果を何と比較して正しいと判定したかは、テストの検査条件を読む必要があります。</p>
+  <p><a href={coverage}>ISSTA 2026／PACMSEの再現研究</a>では、正しいJava実装から生成した回帰テストについて、モデルごとの平均値を比較すると、分岐カバレッジとバグ検出率に強い相関（<code>r = 0.861</code>）がありました。一方、バグを含む実装から生成した場合、その相関は弱く、正しい実装を使った同一モデル内の比較でも弱いものでした。カバレッジを無意味と切り捨てる理由にはなりませんが、高い値を個々の変更の正しさと読み替えることもできません。</p>
   <h2>守りたい振る舞いを崩して、テストを試す</h2>
-  <p>期待値の根拠を確認したら、そのテストが見つけるべき誤りを一つ考えます。送料を一度だけ加える要件なら、複数個の注文で送料を個数分加える変更は、意味のある検査対象です。テストの期待値を書き換えたり、構文エラーを入れたりして赤くしても、この誤りを検出できる証拠にはなりません。</p>
-  <p><a href={mutation}>MetaのACH研究</a>（FSE 2025 Industry）は、既存テストが見逃す模擬的な不具合を作り、元のコードでは成功し、その不具合では失敗するテストを選ぶ方法を報告しています。生成した571テストのうち277は、行カバレッジを増やさずに追加の変異を検出しました。実障害の削減を測った数字ではありません。参考にしたいのは、件数を増やすだけでなく、何を検出できるようになったかを確かめる手順です。</p>
+  <p>期待値の根拠を確認したら、そのテストが見つけるべき誤りを一つ考えます。送料を一度だけ加える要件なら、複数個の注文で送料を個数分加える変更を入れれば、その誤りをテストが見つけるか確かめられます。テストの期待値を書き換えたり、構文エラーを入れたりして赤くしても、この誤りを検出できる証拠にはなりません。</p>
+  <p><a href={mutation}>MetaのACH研究</a>（FSE 2025 Industry）は、既存テストが見逃す模擬的な不具合を作り、元のコードでは成功し、その不具合では失敗するテストを選ぶ方法を報告しています。生成した571テストのうち277は、行カバレッジを増やさずに、既存テストが見逃した模擬的な不具合を検出しました。実障害の削減を測った数字ではありません。参考にしたいのは、件数を増やすだけでなく、何を検出できるようになったかを確かめる手順です。</p>
   <p>これらはテスト名や成功件数を見るレビューとの比較実験ではなく、UIで同じ効果が得られる保証でもありません。以下は研究の追試ではなく、このブログで確認できる小さな例です。</p>
   <h2>見積のテストは、参照の間違いを見つけ、単価の間違いを見逃した</h2>
   <p>この見積は1個100円、初期数量は5個で500円。お急ぎ便は注文ごとに200円追加です。AIアシスタントのdotが、BarefootJSの公開版0.39.3をMacで検証しました。</p>
@@ -34,10 +34,12 @@ export const posts: Post[] = [{
   <Code label="表示部品へ渡す式の検査 · 実際のテストから抜粋" children={assertion} />
   <p>dotが実行した結果は、次のとおりでした。期待値は固定し、実装だけを一時変更してから戻しています。</p>
   <ul><li><code>{'<TotalReadout value={total()} … />'}</code> の元の実装では成功。</li><li>同じ行を <code>{'<TotalReadout value={quantity()} … />'}</code> に変えると失敗。合計500円を渡す場所に数量5を渡してしまう取り違えを検出。</li><li>単価の計算を100円から101円に変えても成功。渡す式は <code>total()</code> のままなので、価格の間違いは検出しない。</li></ul>
-  <p>この静的テストが守るのは、指定した式を表示部品へ渡すことです。「5個なら500円」という要件には、入力と計算結果のテストや、画面に出る金額の検査を対応させられます。dotは別途ブラウザで500→600→800の更新も確認しましたが、それは上の静的テストから得た証拠ではありません。<a href="https://github.com/kfly8/dot/blob/main/docs/wiring-experiment.md">コードと再現手順</a>を公開しています。</p>
+  <p>値が一致していても、意図した値を渡しているとは限りません。たとえば、数量と合計金額がたまたま同じ数値になる条件では、そのケースの値を比較するだけでは参照の取り違えを見逃します。今回の初期状態は数量5、合計500円なので、表示金額を500と比較するテストでも取り違えを検出できます。</p>
+  <p>この静的テストが確かめるのは、結果の数値ではなく、金額表示の <code>value</code> に合計を表す <code>total()</code> が渡されていることです。計算結果の正しさは、この検査の対象に含まれません。</p>
+  <p>意図した式につながっていても、計算や画面の更新まで正しいとは限りません。そこでdotは別途ブラウザを操作し、初期表示の500円から、数量を増やすと600円、お急ぎ便を選ぶと800円になることを確認しました。式の接続は静的テストで、操作後の表示はブラウザで確かめています。<a href="https://github.com/kfly8/dot/blob/main/docs/wiring-experiment.md">コードと再現手順</a>も公開しています。</p>
   <p>BarefootJSはこの式を調べる一つの道具です。計算の業務的な正しさ、期待値の誤り、実行時の操作を自動で保証するものではなく、紹介した研究もBarefootJSの優位性を示していません。</p>
   <h2>次の変更では、テスト一つの根拠と検出力を確かめる</h2>
-  <p>受け入れ判断をする変更から、重要な振る舞いを守るテストを一つ選んでください。期待値を要件や具体的な入出力例に照らし、その振る舞いを破る実装変更を一つ試します。元の実装で成功し、誤りを入れると検査条件の不一致で失敗し、戻すと成功するところまで確認します。</p>
+  <p>次に変更をレビューするとき、重要な振る舞いを守るテストを一つ選んでください。期待値を要件や具体的な入出力例に照らし、その振る舞いを破る実装変更を一つ試します。元の実装で成功し、誤りを入れると期待値との不一致で失敗し、戻すと成功するところまで確認します。</p>
   <p>失敗しなければ、すぐにテストを増やす前に、変更が本当に要件違反なのか、テストがその箇所を通るのか、結果を比較しているのかを調べます。逆に一つ検出できても、すべての誤りを見つけられるわけではありません。「この要件を根拠に、この間違いは検出した。計算や画面のこの部分は未確認」と説明できれば、次に必要な確認を選べます。</p>
   <p>この方法が役立った場面だけでなく、うまくいかなかった例や別の確かめ方も、<a href="https://github.com/kfly8/dot/issues">記事のIssues</a>へ寄せてください。</p>
  </> : <>
@@ -61,7 +63,9 @@ export const posts: Post[] = [{
   <Code label="Inspect the expression supplied to the display · actual test excerpt" children={assertion} />
   <p>These were my observed results. I kept the expectation fixed, changed only the implementation temporarily, and restored it afterward.</p>
   <ul><li>The original <code>{'<TotalReadout value={total()} … />'}</code> passed.</li><li>Changing that line to <code>{'<TotalReadout value={quantity()} … />'}</code> failed: it supplies the count of 5 where the total of JPY 500 belongs.</li><li>Changing the unit-price calculation from 100 to 101 still passed. The expression remained <code>total()</code>, so this test did not detect the pricing error.</li></ul>
-  <p>The static test protects the specified expression being passed to the display. The requirement “five items cost JPY 500” can instead be checked through calculation inputs and outputs, or an assertion on the displayed amount. I separately confirmed updates from 500 to 600 to 800 in a browser, but that evidence did not come from the static test. The <a href="https://github.com/kfly8/dot/blob/main/docs/wiring-experiment.md">code and reproduction steps</a> are available.</p>
+  <p>Matching values do not necessarily mean the intended value was supplied. If the quantity and total happen to be the same number, comparing the value in that case alone misses a swapped reference. In this example’s initial state, the quantity is 5 and the total is JPY 500, so an assertion that the displayed amount equals 500 can also detect the mistake.</p>
+  <p>This static test checks the expression rather than the resulting number: the amount prop, <code>value</code>, must receive <code>total()</code>. Whether <code>total()</code> calculates the correct amount needs a separate check.</p>
+  <p>Even with the intended expression connected, the calculation and screen updates may still be wrong. I therefore also operated the example in a browser, confirming that the initial JPY 500 became JPY 600 after increasing the quantity, then JPY 800 after selecting express delivery. The static test checks the expression’s connection; the browser check verifies the display after those interactions. The <a href="https://github.com/kfly8/dot/blob/main/docs/wiring-experiment.md">code and reproduction steps</a> are available.</p>
   <p>BarefootJS is one tool for inspecting this expression. It does not automatically establish business correctness, validate an expectation, or verify runtime interactions. None of the cited research demonstrates BarefootJS’s superiority.</p>
   <h2>Check one test’s basis and detection ability in your next change</h2>
   <p>Choose one test protecting important behavior in a change you are about to accept. Check its expectation against a requirement or concrete input/output example, then try one implementation change that violates that behavior. Confirm that the original passes, the faulty version fails because of an assertion mismatch, and restoration passes again.</p>
